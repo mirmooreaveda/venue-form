@@ -1,0 +1,72 @@
+<html>
+<head>
+  <title>Edit Venue Info</title>
+</head>
+<body>
+  <h2>Edit Venue Profile</h2>
+  <form id="venueForm">
+    <input type="hidden" id="id" name="id">
+
+    <label>Venue Name:</label><br>
+    <input type="text" id="venueName" name="venueName"><br><br>
+
+    <label>Address:</label><br>
+    <input type="text" id="address" name="address"><br><br>
+
+    <label>Contact Name:</label><br>
+    <input type="text" id="contactName" name="contactName"><br><br>
+
+    <label>Contact Email:</label><br>
+    <input type="email" id="contactEmail" name="contactEmail"><br><br>
+
+    <label>Capacity:</label><br>
+    <input type="number" id="capacity" name="capacity"><br><br>
+
+    <label>Amenities:</label><br>
+    <input type="text" id="amenities" name="amenities"><br><br>
+
+    <label>Notes:</label><br>
+    <textarea id="notes" name="notes"></textarea><br><br>
+
+    <button type="submit">Save</button>
+  </form>
+
+  <p id="message"></p>
+
+  <script>
+    const id = new URLSearchParams(window.location.search).get('id');
+    const id = urlParams.get('id') || 'venue001';
+    if (!id) {
+      document.body.innerHTML = "<h2>Error: No ID provided in URL</h2>";
+    } else {
+      document.getElementById('id').value = id;
+
+      fetch('https://script.google.com/macros/s/AKfycbxO8PIzuBGmeDzkQLDXagHy6L6bGel2ugNdyGdAYZ6FjK4cCoCOcpZEfxSUCLE_KJpsKw/exec' + id)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            document.getElementById("message").textContent = data.error;
+          } else {
+            for (let key in data) {
+              if (document.getElementById(key)) {
+                document.getElementById(key).value = data[key];
+              }
+            }
+          }
+        });
+
+      document.getElementById('venueForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch('https://script.google.com/macros/s/AKfycbxO8PIzuBGmeDzkQLDXagHy6L6bGel2ugNdyGdAYZ6FjK4cCoCOcpZEfxSUCLE_KJpsKw/exec', {
+          method: 'POST',
+          body: formData
+        }).then(res => res.text()).then(data => {
+          document.getElementById("message").textContent = data;
+        });
+      });
+    }
+  </script>
+</body>
+</html>
+
