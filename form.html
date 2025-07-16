@@ -22,29 +22,29 @@
 </head>
 <body>
   <h2></h2>
-  <form id="venueForm">
-    <input type="hidden" id="id" name="id">
+  <form id="venueForm" method="POST" action="https://script.google.com/macros/s/AKfycbwHxDPgW5Cvc9pnTXAhTRbrXOqQyDvNVeCTzscgovehcfHt6Hbnr_znDLlTgTUw5RIQmg/exec">
+    <input type="hidden" id="id" name="ID">
 
     <label>Venue Name:</label><br>
-    <input type="text" id="venueName" name="venueName"><br><br>
+    <input type="text" id="venueName" name="Venue Name"><br><br>
 
     <label>Address:</label><br>
-    <input type="text" id="address" name="address"><br><br>
+    <input type="text" id="address" name="Address"><br><br>
 
     <label>Contact Name:</label><br>
-    <input type="text" id="contactName" name="contactName"><br><br>
+    <input type="text" id="contactName" name="Contact Name"><br><br>
 
     <label>Contact Email:</label><br>
-    <input type="email" id="contactEmail" name="contactEmail"><br><br>
+    <input type="email" id="contactEmail" name="Contact Email"><br><br>
 
     <label>Capacity:</label><br>
-    <input type="number" id="capacity" name="capacity"><br><br>
+    <input type="number" id="capacity" name="Capacity"><br><br>
 
     <label>Amenities:</label><br>
-    <input type="text" id="amenities" name="amenities"><br><br>
+    <input type="text" id="amenities" name="Amenities"><br><br>
 
     <label>Notes:</label><br>
-    <textarea id="notes" name="notes"></textarea><br><br>
+    <textarea id="notes" name="Notes"></textarea><br><br>
 
     <button type="submit">Save</button>
   </form>
@@ -52,14 +52,15 @@
   <p id="message"></p>
 
   <script>
-    const id = new URLSearchParams(window.location.search).get('id');
-    const id = urlParams.get('id') || 'venue001';
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get('id');
+
     if (!id) {
       document.body.innerHTML = "<h2>Error: No ID provided in URL</h2>";
     } else {
       document.getElementById('id').value = id;
 
-      fetch('https://script.google.com/macros/s/AKfycbxO8PIzuBGmeDzkQLDXagHy6L6bGel2ugNdyGdAYZ6FjK4cCoCOcpZEfxSUCLE_KJpsKw/exec' + id)
+      fetch('https://script.google.com/macros/s/AKfycbwHxDPgW5Cvc9pnTXAhTRbrXOqQyDvNVeCTzscgovehcfHt6Hbnr_znDLlTgTUw5RIQmg/exec?id=${id}')
         .then(res => res.json())
         .then(data => {
           if (data.error) {
@@ -76,7 +77,7 @@
       document.getElementById('venueForm').addEventListener('submit', function (e) {
         e.preventDefault();
         const formData = new FormData(this);
-        fetch('https://script.google.com/macros/s/AKfycbxO8PIzuBGmeDzkQLDXagHy6L6bGel2ugNdyGdAYZ6FjK4cCoCOcpZEfxSUCLE_KJpsKw/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbwHxDPgW5Cvc9pnTXAhTRbrXOqQyDvNVeCTzscgovehcfHt6Hbnr_znDLlTgTUw5RIQmg/exec', {
           method: 'POST',
           body: formData
         }).then(res => res.text()).then(data => {
